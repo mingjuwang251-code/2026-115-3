@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>國小高年級快樂學習自我檢核量表</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts: Fluent Noto Sans TC -->
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
+    }
+    .emoji-radio:checked + label {
+      border-color: #6366f1;
+      background-color: #eef2ff;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body class="bg-amber-50/50 text-slate-800 min-h-screen pb-12">
+
+  <!-- 頂部頁首 -->
+  <header class="bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 text-white shadow-lg">
+    <div class="max-w-4xl mx-auto px-4 py-8 text-center relative">
+      <div class="inline-block bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-xs font-bold tracking-wide mb-2 uppercase">
+        高年級限定 ‧ 學習探索特快車
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-black tracking-tight drop-shadow-md">
+        🚀 我的快樂學習雷達站
+      </h1>
+      <p class="text-amber-100 text-sm sm:text-base mt-2 font-medium">
+        用幾分鐘時間，幫自己的學習心情做個健檢吧！
+      </p>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+
+    <!-- 歡迎卡片與引導說明 -->
+    <div class="bg-white rounded-3xl shadow-sm border-2 border-amber-200 p-6 mb-8 text-center sm:text-left relative overflow-hidden">
+      <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
+        <div class="text-6xl animate-bounce">🎈</div>
+        <div>
+          <h2 class="text-xl font-bold text-slate-800 mb-1">親愛的同學們，你好！</h2>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            這不是考試，也沒有標準答案喔！請根據你平時上課與寫作業的真正感受，選擇最符合你想法的表情。題目中的每一個選項都是為了幫你找到最棒的學習方式！
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 表單開始 -->
+    <form id="happyLearningForm" onsubmit="calculateResults(event)">
+
+      <!-- 基本資料 -->
+      <div class="bg-white rounded-2xl shadow-sm border border-amber-100 p-6 mb-6">
+        <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center">
+          <span class="bg-amber-400 text-white w-7 h-7 rounded-full inline-flex items-center justify-center text-sm font-black mr-2 shadow-sm">1</span>
+          基本資料區
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">年級 <span class="text-rose-500">*</span></label>
+            <select name="grade" required class="w-full rounded-xl border-2 border-amber-100 p-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-slate-50">
+              <option value="">請選擇年級...</option>
+              <option value="五年級">五年級</option>
+              <option value="六年級">六年級</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">性別暱稱 <span class="text-rose-500">*</span></label>
+            <select name="gender" required class="w-full rounded-xl border-2 border-amber-100 p-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-slate-50">
+              <option value="">請選擇...</option>
+              <option value="男生">男生 👦</option>
+              <option value="女生">女生 👧</option>
+              <option value="不透露">秘密 🤫</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">你最喜歡的科目 <span class="text-rose-500">*</span></label>
+            <input type="text" name="favoriteSubject" placeholder="例如：自然、體育、美術" required class="w-full rounded-xl border-2 border-amber-100 p-2 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none bg-slate-50">
+          </div>
+        </div>
+      </div>
+
+      <!-- 題庫分區 -->
+      <div class="space-y-6">
+
+        <!-- 向度一：學習樂趣與好奇心 -->
+        <div class="bg-white rounded-2xl shadow-sm border border-orange-100 p-6">
+          <div class="mb-4 border-b border-orange-100 pb-2">
+            <h2 class="text-base font-bold text-orange-600 flex items-center">
+              <span class="bg-orange-500 text-white w-7 h-7 rounded-full inline-flex items-center justify-center text-sm font-black mr-2 shadow-sm">2</span>
+              第一區：學習樂趣與好奇心 ✨
+            </h2>
+            <p class="text-xs text-slate-500 mt-1 pl-9">看看你對探索新知識有沒有興趣呢？</p>
+          </div>
+          <div class="space-y-5" id="dim1-container"></div>
+        </div>
+
+        <!-- 向度二：挫折調適與堅持度 -->
+        <div class="bg-white rounded-2xl shadow-sm border border-emerald-100 p-6">
+          <div class="mb-4 border-b border-emerald-100 pb-2">
+            <h2 class="text-base font-bold text-emerald-600 flex items-center">
+              <span class="bg-emerald-500 text-white w-7 h-7 rounded-full inline-flex items-center justify-center text-sm font-black mr-2 shadow-sm">3</span>
+              第二區：遇到困難的超能力 🌱
+            </h2>
+            <p class="text-xs text-slate-500 mt-1 pl-9">當作業很難或考不好時，你的反應是什麼？</p>
+          </div>
+          <div class="space-y-5" id="dim2-container"></div>
+        </div>
+
+        <!-- 向度三：同儕合作與分享 -->
+        <div class="bg-white rounded-2xl shadow-sm border border-indigo-100 p-6">
+          <div class="mb-4 border-b border-indigo-100 pb-2">
+            <h2 class="text-base font-bold text-indigo-600 flex items-center">
+              <span class="bg-indigo-500 text-white w-7 h-7 rounded-full inline-flex items-center justify-center text-sm font-black mr-2 shadow-sm">4</span>
+              第三區：分組與同儕合作 🤝
+            </h2>
+            <p class="text-xs text-slate-500 mt-1 pl-9">在小組討論或和同學一起學習時的感受。</p>
+          </div>
+          <div class="space-y-5" id="dim3-container"></div>
+        </div>
+
+        <!-- 向度四：自主自信與自我肯定 -->
+        <div class="bg-white rounded-2xl shadow-sm border border-rose-100 p-6">
+          <div class="mb-4 border-b border-rose-100 pb-2">
+            <h2 class="text-base font-bold text-rose-600 flex items-center">
+              <span class="bg-rose-500 text-white w-7 h-7 rounded-full inline-flex items-center justify-center text-sm font-black mr-2 shadow-sm">5</span>
+              第四區：自我信心大考驗 💪
+            </h2>
+            <p class="text-xs text-slate-500 mt-1 pl-9">你相信自己能把事情做好嗎？</p>
+          </div>
+          <div class="space-y-5" id="dim4-container"></div>
+        </div>
+
+      </div>
+
+      <!-- 按鈕區 -->
+      <div class="mt-8 flex justify-center space-x-4">
+        <button type="button" onclick="resetForm()" class="px-6 py-3 rounded-2xl border-2 border-slate-300 text-slate-600 hover:bg-slate-100 transition-colors font-bold text-sm">
+          重新填寫
+        </button>
+        <button type="submit" class="px-10 py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-base shadow-md transition-all transform hover:-translate-y-0.5 flex items-center">
+          🌟 查看我的學習特快車報告！
+        </button>
+      </div>
+
+    </form>
+
+    <!-- 結果展現區塊 -->
+    <div id="resultSection" class="hidden mt-10 bg-white rounded-3xl shadow-xl border-4 border-amber-300 p-6 sm:p-8">
+      <div class="text-center border-b border-slate-100 pb-6 mb-6">
+        <span class="inline-block bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-full text-xs mb-2">檢核完成！</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-800">🎉 你的快樂學習雷達分析圖表</h2>
+        <p class="text-slate-500 text-xs mt-1">分析時間：<span id="reportTime"></span></p>
+      </div>
+
+      <!-- 總分與稱號卡片 -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <div class="bg-gradient-to-br from-amber-400 to-orange-400 text-white rounded-2xl p-4 text-center shadow-md">
+          <p class="text-xs font-bold text-amber-100 uppercase">快樂總分</p>
+          <p class="text-4xl font-black my-1"><span id="totalScore">0</span> <span class="text-xs font-normal">/ 60</span></p>
+          <span id="badgeTag" class="inline-block bg-white/20 text-white text-xs px-2 py-0.5 rounded-md font-bold">加載中...</span>
+        </div>
+        <div class="bg-orange-50 border border-orange-200 rounded-2xl p-4 text-center">
+          <p class="text-xs font-bold text-orange-600">最高能量向度</p>
+          <p class="text-lg font-bold text-slate-800 mt-2" id="topDimension">分析中...</p>
+        </div>
+        <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 text-center">
+          <p class="text-xs font-bold text-indigo-600">潛能充電向度</p>
+          <p class="text-lg font-bold text-slate-800 mt-2" id="growDimension">分析中...</p>
+        </div>
+      </div>
+
+      <!-- 圖表與說明 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center mb-8">
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex justify-center">
+          <div class="w-full max-w-xs">
+            <canvas id="radarChart"></canvas>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <h3 class="text-lg font-bold text-slate-800 flex items-center">
+            <i class="fa-solid fa-wand-magic-sparkles text-amber-500 mr-2"></i> 給你的學習能量小秘訣
+          </h3>
+          <div id="diagnosticFeedback" class="text-sm text-slate-700 leading-relaxed space-y-2 bg-amber-50/60 p-4 rounded-2xl border border-amber-200">
+            <!-- 動態生成文字 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 匯出按鈕 -->
+      <div class="text-center pt-4 border-t border-slate-100">
+        <button onclick="exportJSON()" class="px-6 py-2.5 bg-slate-800 text-white rounded-xl text-xs font-bold hover:bg-slate-700 transition flex items-center mx-auto">
+          <i class="fa-solid fa-file-export mr-2"></i> 下載學習心情紀錄 JSON
+        </button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    // 題目清單
+    const questions = [
+      // 向度一：學習樂趣與好奇心
+      { id: 1, dim: 1, text: "1. 我常覺得課本裡介紹的新知識很有趣，想知道更多。", isReverse: false },
+      { id: 2, dim: 1, text: "2. 在課堂上聽懂一個很難的概念時，我會覺得特別有成就感。", isReverse: false },
+      { id: 3, dim: 1, text: "3. 上課時，我會專心聽講並主動舉手回答問題或表達看法。", isReverse: false },
+      
+      // 向度二：挫折調適與堅持度
+      { id: 4, dim: 2, text: "4. 遇到算不出來的數學題或寫不好的作業時，我願意多花時間再試試看。", isReverse: false },
+      { id: 5, dim: 2, text: "5. 當小考分數不如預期時，我只會覺得沮喪，不想再去訂正或搞懂它。", isReverse: true },
+      { id: 6, dim: 2, text: "6. 學習遇到不懂的地方時，我會主動問老師、同學或回家查資料。", isReverse: false },
+
+      // 向度三：同儕合作與分享
+      { id: 7, dim: 3, text: "7. 我喜歡和組員一起完成分組報告或進行實作活動。", isReverse: false },
+      { id: 8, dim: 3, text: "8. 當同學學習遇到困難時，我願意有耐心地耐心地教他。", isReverse: false },
+      { id: 9, dim: 3, text: "9. 在分組討論時，我常覺得大家意見不一樣很麻煩，不想參加。", isReverse: true },
+
+      // 向度四：自主自信與自我肯定
+      { id: 10, dim: 4, text: "10. 我相信只要自己肯付出努力，就能把不擅長的科目學好。", isReverse: false },
+      { id: 11, dim: 4, text: "11. 我能自己安排好放學後的寫作業與複習時間。", isReverse: false },
+      { id: 12, dim: 4, text: "12. 我覺得自己是一個有能力、有優點的學習者。", isReverse: false }
+    ];
+
+    const options = [
+      { label: "非常不符合", emoji: "😫", val: 1 },
+      { label: "不太符合", emoji: "😕", val: 2 },
+      { label: "普通/還好", emoji: "😐", val: 3 },
+      { label: "蠻符合的", emoji: "🙂", val: 4 },
+      { label: "非常符合！", emoji: "🤩", val: 5 }
+    ];
+
+    let radarChartInstance = null;
+
+    // 頁面載入
+    window.onload = function() {
+      renderQuestions();
+    };
+
+    // 渲染題目
+    function renderQuestions() {
+      questions.forEach(q => {
+        const container = document.getElementById(`dim${q.dim}-container`);
+        const qEl = document.createElement('div');
+        qEl.className = 'p-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-amber-200 transition-all';
+        
+        let reverseBadge = q.isReverse ? `<span class="ml-2 text-xs text-rose-500 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200 font-bold">反向思考題</span>` : '';
+
+        let optionsHTML = options.map(opt => `
+          <div class="relative">
+            <input type="radio" id="q_${q.id}_${opt.val}" name="q_${q.id}" value="${opt.val}" required class="sr-only emoji-radio">
+            <label for="q_${q.id}_${opt.val}" class="flex flex-col items-center justify-center p-2 rounded-xl cursor-pointer bg-white border-2 border-slate-200 hover:border-amber-300 transition-all select-none">
+              <span class="text-2xl">${opt.emoji}</span>
+              <span class="text-[11px] font-bold text-slate-600 mt-1">${opt.label}</span>
+            </label>
+          </div>
+        `).join('');
+
+        qEl.innerHTML = `
+          <div class="flex items-center justify-between mb-3">
+            <p class="text-sm font-bold text-slate-800 leading-snug">${q.text} ${reverseBadge}</p>
+          </div>
+          <div class="grid grid-cols-5 gap-1.5 sm:gap-3">
+            ${optionsHTML}
+          </div>
+        `;
+        container.appendChild(qEl);
+      });
+    }
+
+    // 重置
+    function resetForm() {
+      document.getElementById('happyLearningForm').reset();
+      document.getElementById('resultSection').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 計算分數與成果展現
+    function calculateResults(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      let scores = {};
+      let dimTotals = { 1: 0, 2: 0, 3: 0, 4: 0 };
+
+      questions.forEach(q => {
+        const val = parseInt(formData.get(`q_${q.id}`));
+        const finalVal = q.isReverse ? (6 - val) : val;
+        scores[q.id] = finalVal;
+        dimTotals[q.dim] += finalVal;
+      });
+
+      const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
+
+      const d1Avg = (dimTotals[1] / 3).toFixed(1);
+      const d2Avg = (dimTotals[2] / 3).toFixed(1);
+      const d3Avg = (dimTotals[3] / 3).toFixed(1);
+      const d4Avg = (dimTotals[4] / 3).toFixed(1);
+
+      document.getElementById('totalScore').innerText = totalScore;
+
+      // 設定榮譽頭銜
+      const badgeTag = document.getElementById('badgeTag');
+      if (totalScore >= 52) {
+        badgeTag.innerText = "🌟 快樂學習大領航員";
+      } else if (totalScore >= 42) {
+        badgeTag.innerText = "🚀 能量滿滿探索家";
+      } else if (totalScore >= 32) {
+        badgeTag.innerText = "🌱 穩健成長小學徒";
+      } else {
+        badgeTag.innerText = "🔍 潛能尋寶冒險家";
+      }
+
+      // 分析最高與最低向度
+      const dimNames = { 1: "學習樂趣", 2: "挫折克服", 3: "同儕合作", 4: "自我自信" };
+      const dimAvgs = { 1: parseFloat(d1Avg), 2: parseFloat(d2Avg), 3: parseFloat(d3Avg), 4: parseFloat(d4Avg) };
+
+      const sortedDims = Object.keys(dimAvgs).sort((a, b) => dimAvgs[b] - dimAvgs[a]);
+      document.getElementById('topDimension').innerText = `${dimNames[sortedDims[0]]} (${dimAvgs[sortedDims[0]]}分)`;
+      document.getElementById('growDimension').innerText = `${dimNames[sortedDims[3]]} (${dimAvgs[sortedDims[3]]}分)`;
+
+      // 生成建議與診斷說明
+      generateFeedback(dimAvgs);
+
+      // 繪製雷達圖
+      renderRadarChart(d1Avg, d2Avg, d3Avg, d4Avg);
+
+      // 展現結果
+      document.getElementById('reportTime').innerText = new Date().toLocaleString('zh-TW');
+      const resultSec = document.getElementById('resultSection');
+      resultSec.classList.remove('hidden');
+      resultSec.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 反饋給學生的評語
+    function generateFeedback(dimAvgs) {
+      const container = document.getElementById('diagnosticFeedback');
+      let html = '';
+
+      if (dimAvgs[1] >= 4.0) {
+        html += `<p class="flex items-start"><span class="mr-2">💡</span><span><strong>你對學習充滿好奇心！</strong> 保持這股熱情，你會發現世界比想像中更精彩！</span></p>`;
+      } else {
+        html += `<p class="flex items-start"><span class="mr-2">🔍</span><span><strong>尋找你的專屬興趣：</strong> 試著從你最喜歡的領域開始著手，學習會變得更有意思喔！</span></p>`;
+      }
+
+      if (dimAvgs[2] >= 4.0) {
+        html += `<p class="flex items-start"><span class="mr-2">🛡️</span><span><strong>你擁有一顆強大的心臟！</strong> 遇到困難不放棄，這是走向成功最棒的品質！</span></p>`;
+      } else {
+        html += `<p class="flex items-start"><span class="mr-2">🧩</span><span><strong>遇到卡關時別擔心：</strong> 記得「題難我不怕，多問一句話」，尋求老師或同學幫助也是一種能力喔！</span></p>`;
+      }
+
+      if (dimAvgs[3] >= 4.0) {
+        html += `<p class="flex items-start"><span class="mr-2">🤝</span><span><strong>你真是個好夥伴：</strong> 能和大家愉快合作與分享，同儕因為有你而感到幸福！</span></p>`;
+      }
+
+      if (dimAvgs[4] >= 4.0) {
+        html += `<p class="flex items-start"><span class="mr-2">👑</span><span><strong>對自己非常有信心：</strong> 相信自己能做好，你就已經成功了一半！</span></p>`;
+      } else {
+        html += `<p class="flex items-start"><span class="mr-2">🎈</span><span><strong>多給自己一點讚美：</strong> 每天記錄一個自己做得好的小地方，自信會像氣球一樣慢慢膨脹喔！</span></p>`;
+      }
+
+      container.innerHTML = html;
+    }
+
+    // 繪製雷達圖
+    function renderRadarChart(d1, d2, d3, d4) {
+      const ctx = document.getElementById('radarChart').getContext('2d');
+      
+      if (radarChartInstance) {
+        radarChartInstance.destroy();
+      }
+
+      radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['學習樂趣', '挫折克服', '同儕合作', '自我自信'],
+          datasets: [{
+            label: '平均得分',
+            data: [d1, d2, d3, d4],
+            backgroundColor: 'rgba(245, 158, 11, 0.25)',
+            borderColor: 'rgba(245, 158, 11, 1)',
+            borderWidth: 3,
+            pointBackgroundColor: 'rgba(245, 158, 11, 1)',
+            pointRadius: 4
+          }]
+        },
+        options: {
+          scales: {
+            r: {
+              min: 1,
+              max: 5,
+              ticks: { stepSize: 1 }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+
+    // 匯出 JSON
+    function exportJSON() {
+      const form = document.getElementById('happyLearningForm');
+      const formData = new FormData(form);
+      let exportData = {
+        studentInfo: {
+          grade: formData.get('grade'),
+          gender: formData.get('gender'),
+          favoriteSubject: formData.get('favoriteSubject'),
+          timestamp: new Date().toISOString()
+        },
+        scoreSummary: {
+          totalScore: document.getElementById('totalScore').innerText,
+          badge: document.getElementById('badgeTag').innerText
+        }
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `Happy_Learning_Result_${Date.now()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+  </script>
+</body>
+</html>
